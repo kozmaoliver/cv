@@ -1,14 +1,18 @@
+FROM mlocati/php-extension-installer:2.7 AS php_extension_installer
+
 FROM composer/composer:2.7-bin AS composer
 
-FROM php:8.2-fpm
+FROM php:8.2-fpm-alpine3.21
+
+COPY --chown=root:root --chmod=755 --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
 
 COPY --chown=root:root --chmod=755 --from=composer /composer /usr/local/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Install required PHP extensions
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+RUN apk add libpq-dev \
+    && install-php-extensions \
+      pdo pdo_pgsql
 
 # Set the working directory
 WORKDIR /var/www/html
