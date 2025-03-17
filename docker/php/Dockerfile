@@ -1,4 +1,9 @@
+FROM composer/composer:2.7-bin AS composer
+
 FROM php:8.2-fpm
+
+COPY --chown=root:root --chmod=755 --from=composer /composer /usr/local/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Install required PHP extensions
 RUN apt-get update && apt-get install -y \
