@@ -12,10 +12,10 @@ class Skill implements EntityInterface
     use Identifiable;
 
     #[ORM\Column]
-    private ?string $name;
+    private string $name;
 
     #[ORM\Column]
-    private ?int $yearsOfExperience;
+    private int $yearsOfExperience;
 
     public function getName(): string
     {
@@ -27,12 +27,12 @@ class Skill implements EntityInterface
         $this->name = $name;
     }
 
-    public function getYearsOfExperience(): ?int
+    public function getYearsOfExperience(): int
     {
         return $this->yearsOfExperience;
     }
 
-    public function setYearsOfExperience(?int $yearsOfExperience): void
+    public function setYearsOfExperience(int $yearsOfExperience): void
     {
         $this->yearsOfExperience = $yearsOfExperience;
     }
