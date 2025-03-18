@@ -1,0 +1,10 @@
+$body-bg: #F0EBE3;
+$body-color: #576F72;
+
+$theme-colors: (
+        "primary": #395B64
+);
+
+$font-size-base: 1.2rem;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
