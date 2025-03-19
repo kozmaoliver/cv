@@ -1,13 +1,72 @@
+networks:
+    proxy:
+        name: ${COMPOSE_PROJECT_NAME}_proxy
+        driver: bridge
+
 volumes:
     database_data:
 
 services:
+    traefik:
+        image: traefik:3.1
+        container_name: ${COMPOSE_PROJECT_NAME}-traefik
+        restart: unless-stopped
+        command:
+            # Default
+            - "--serverstransport.insecureskipverify=true"
+            # Configuration
+            - "--ping"
+            # Api
+            - "--api.insecure=true"
+            - "--api.dashboard=true"
+            # Log
+            - "--log.level=INFO"
+            - "--log.filePath=/dev/stdout"
+            - "--log.format=json"
+            # Access Log
+            - "--accesslog.addInternals=true"
+            - "--accesslog.filepath=/dev/stdout"
+            - "--accesslog.format=json"
+            # Providers
+            - "--providers.docker=true"
+            - "--providers.docker.network=${COMPOSE_PROJECT_NAME}_proxy"
+            - "--providers.docker.exposedbydefault=false"
+            - "--providers.docker.watch=true"
+            - "--providers.file.directory=/configuration/"
+            - "--providers.file.watch=true"
+            # Entry points
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+            - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+            - "--entrypoints.websecure.address=:443"
+            - "--entrypoints.postgres.address=:5432"
+        labels:
+            - traefik.enable=true
+            - traefik.port=8080
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-traefik.rule=Host(`traefik.localhost`)
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-traefik.entryPoints=websecure
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}_traefik.tls=true
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-traefik.service=api@internal
+        ports:
+            - "127.0.0.1:80:80"
+            - "127.0.0.1:8080:8080"
+            - "127.0.0.1:443:443/tcp"
+            - "127.0.0.1:443:443/udp"
+        networks:
+            - proxy
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./certs/:/certs/:ro
+            - ./config/traefik.yaml:/configuration/traefik.yaml:ro
+
     php:
         container_name: ${COMPOSE_PROJECT_NAME}-php
         build:
             context: docker/php
         restart: always
         working_dir: /var/www/html
+        networks:
+            - proxy
         volumes:
             - .:/var/www/html
         depends_on:
@@ -17,8 +76,14 @@ services:
         container_name: ${COMPOSE_PROJECT_NAME}-nginx
         image: nginx:latest
         restart: always
-        ports:
-            - "8080:80"
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.nginx.rule=Host(`app.localhost`)
+            - traefik.http.routers.nginx.entryPoints=websecure
+            - traefik.http.routers.nginx.tls=true
+            - traefik.http.services.nginx.loadbalancer.server.port=80
+        networks:
+            - proxy
         volumes:
             - .:/var/www/html
             - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
