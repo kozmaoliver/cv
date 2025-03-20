@@ -12,7 +12,14 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # Install required PHP extensions
 RUN apk add libpq-dev \
     && install-php-extensions \
-      pdo pdo_pgsql
+        apcu \
+        exif \
+        gd \
+        intl \
+        xsl \
+        zip \
+        pdo pdo_pgsql \
+    && docker-php-ext-enable intl
 
 # Set the working directory
 WORKDIR /var/www/html

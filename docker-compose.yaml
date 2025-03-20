@@ -31,7 +31,6 @@ services:
             - "--providers.docker=true"
             - "--providers.docker.network=${COMPOSE_PROJECT_NAME}_proxy"
             - "--providers.docker.exposedbydefault=false"
-            - "--providers.docker.watch=true"
             - "--providers.file.directory=/configuration/"
             - "--providers.file.watch=true"
             # Entry points
