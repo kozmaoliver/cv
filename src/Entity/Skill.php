@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use App\Entity\Shared\Contracts\EntityInterface;
 use App\Entity\Shared\Identifiable;
+use App\Repository\SkillRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: SkillRepository::class)]
 class Skill implements EntityInterface
 {
     use Identifiable;
