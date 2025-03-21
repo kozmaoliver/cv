@@ -3,5 +3,28 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <h1>API Doc</h1>
+    <div class="mb-2">
+        <h1 class="text-decoration-underline">API Doc</h1>
+    </div>
+
+    <div class="mb-4 col-10">
+        {{ 'documentation.lead'|trans({}, 'app') }}
+    </div>
+
+    <div class="my-5">
+        <h2>Work Experience</h2>
+        <div>
+            <span class="badge bg-secondary">GET</span>
+            <span>{{ apiHost }}/work-experiences</span>
+        </div>
+    </div>
+
+    <div class="my-5">
+        <h2>Skills</h2>
+        <div>
+            <span class="badge bg-secondary">GET</span>
+            <span>{{ apiHost }}/skills</span>
+        </div>
+    </div>
+
 {% endblock %}
