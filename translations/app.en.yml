@@ -4,3 +4,6 @@ home:
 
 documentation:
     lead: "As you can see, I'm not a huge fontend guy, so feel free to use the API endpoints to request some info about me, instead of searching through some fancy site."
+
+blog:
+    lead: "Nah, I'm not that talkative, maybe in the future..."
