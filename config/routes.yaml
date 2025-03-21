@@ -1,5 +1,14 @@
-controllers:
+portal:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: ../src/Controller/Portal
+        namespace: App\Controller\Portal
     type: attribute
+    name_prefix: portal_
+
+api:
+    resource:
+        path: ../src/Controller/Api/
+        namespace: App\Controller\Api
+    type: attribute
+    prefix: /api
+    name_prefix: api_
