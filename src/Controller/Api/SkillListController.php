@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Repository\SkillRepository;
+use App\Service\View\ViewHandlerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/skills', name: 'skills', methods: ['GET'])]
 class SkillListController extends AbstractController
 {
     public function __construct(
-        private readonly SkillRepository $skillRepository
+        private readonly SkillRepository      $skillRepository,
+        private readonly ViewHandlerInterface $viewHandler,
     )
     {
     }
 
-    public function __invoke(): JsonResponse
+    public function __invoke(): Response
     {
         $skills = $this->skillRepository->findAll();
 
@@ -29,6 +31,6 @@ class SkillListController extends AbstractController
             ];
         }, $skills);
 
-        return $this->json($skills);
+        return $this->viewHandler->handle($skills);
     }
 }

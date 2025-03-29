@@ -27,7 +27,6 @@ readonly class ViewHandler implements ViewHandlerInterface
         ViewContextInterface $context = new ViewContext(),
     ): Response
     {
-
         $preNormalizeValueEvent = new PreNormalizeValueEvent($data, $context);
         $this->eventDispatcher->dispatch($preNormalizeValueEvent);
 
