@@ -1,8 +1,8 @@
 FROM mlocati/php-extension-installer:2.7 AS php_extension_installer
 
-FROM composer/composer:2.7-bin AS composer
+FROM composer/composer:2.8-bin AS composer
 
-FROM php:8.2-fpm-alpine3.21
+FROM php:8.4-fpm-alpine3.21
 
 COPY --chown=root:root --chmod=755 --from=php_extension_installer /usr/bin/install-php-extensions /usr/local/bin/
 
