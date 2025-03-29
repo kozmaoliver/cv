@@ -16,7 +16,7 @@ class IndexController extends AbstractController
     {
         return $this->render('index.html.twig', [
             'title' => 'Home',
-            'name' => 'Oli'
+            'name' => 'Olivér Kozma'
         ]);
     }
 }
