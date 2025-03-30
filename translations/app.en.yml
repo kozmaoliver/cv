@@ -7,3 +7,6 @@ documentation:
 
 blog:
     lead: "Nah, I'm not that talkative, maybe in the future..."
+
+not_found:
+    title: "You seems kinda lost buddy..."
