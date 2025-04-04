@@ -5,6 +5,7 @@ networks:
 
 volumes:
     database_data:
+    redis-data:
 
 services:
     traefik:
@@ -102,4 +103,22 @@ services:
         ports:
             - "5432:5432"
         volumes:
-            - database_data:/var/lib/postgresql/data
+            - database_data:/bitnami/postgresql
+
+    redis:
+        image: bitnami/redis:7.2
+        container_name: ${COMPOSE_PROJECT_NAME}-redis
+        restart: unless-stopped
+        environment:
+            REDIS_PASSWORD: ${PROJECT_PASSWORD}
+            REDISCLI_AUTH: ${PROJECT_PASSWORD}
+            REDIS_DISABLE_COMMANDS: FLUSHDB,FLUSHALL,CONFIG
+        healthcheck:
+            test: redis-cli ping | grep PONG
+            interval: 1s
+            timeout: 3s
+            retries: 5
+        networks:
+            - proxy
+        volumes:
+            - redis-data:/bitnami
