@@ -3,23 +3,53 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+imports:
+    - { resource: services/ }
+
 parameters:
     app.host: "%env(APP_HOST)%"
 
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    command_handlers:
+        namespace: App\Command\
+        resource: '../src/Command/**/*Handler.php'
+        autoconfigure: true
+        autowire: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+    commands:
+        namespace: App\Console\
+        resource: '../src/Console/**/*Command.php'
+        autoconfigure: true
+        autowire: true
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    controllers:
+        namespace: App\Controller\
+        resource: '../src/Controller/**/*Controller.php'
+        autoconfigure: true
+        autowire: true
+
+    event_listeners:
+        namespace: App\EventListener\
+        resource: '../src/EventListener/**/*EventListener.php'
+        autoconfigure: true
+        autowire: true
+
+    form_types:
+        namespace: App\Form\
+        resource: '../src/Form/**/*Type.php'
+        autoconfigure: true
+        autowire: true
+
+    repositories:
+        namespace: App\Repository\
+        resource: '../src/Repository/**/*Repository.php'
+        autoconfigure: true
+        autowire: true
+        tags:
+            - app.repository
+
+    security:
+        namespace: App\Security\
+        resource: '../src/Security/**/*.php'
+        autoconfigure: true
+        autowire: true

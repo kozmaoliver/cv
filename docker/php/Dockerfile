@@ -19,6 +19,7 @@ RUN apk add libpq-dev \
         xsl \
         zip \
         pdo pdo_pgsql \
+        redis \
     && docker-php-ext-enable intl
 
 # Set the working directory

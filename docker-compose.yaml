@@ -5,6 +5,16 @@ networks:
 
 volumes:
     database_data:
+        name: ${COMPOSE_PROJECT_NAME}-postgres-data
+        driver: local
+
+    redis-data:
+        name: ${COMPOSE_PROJECT_NAME}-redis-data
+        driver: local
+
+    mailpit-data:
+        name: ${COMPOSE_PROJECT_NAME}-mailpit-data
+        driver: local
 
 services:
     traefik:
@@ -49,6 +59,7 @@ services:
         ports:
             - "127.0.0.1:80:80"
             - "127.0.0.1:8080:8080"
+            - "127.0.0.1:8025:8025"
             - "127.0.0.1:443:443/tcp"
             - "127.0.0.1:443:443/udp"
         networks:
@@ -102,4 +113,48 @@ services:
         ports:
             - "5432:5432"
         volumes:
-            - database_data:/var/lib/postgresql/data
+            - database_data:/bitnami/postgresql
+
+    redis:
+        image: bitnami/redis:7.2
+        container_name: ${COMPOSE_PROJECT_NAME}-redis
+        restart: unless-stopped
+        environment:
+            REDIS_PASSWORD: ${PROJECT_PASSWORD}
+            REDISCLI_AUTH: ${PROJECT_PASSWORD}
+            REDIS_DISABLE_COMMANDS: FLUSHDB,FLUSHALL,CONFIG
+        healthcheck:
+            test: redis-cli ping | grep PONG
+            interval: 1s
+            timeout: 3s
+            retries: 5
+        networks:
+            - proxy
+        volumes:
+            - redis-data:/bitnami
+
+    mailpit:
+        image: axllent/mailpit:v1.22
+        container_name: ${COMPOSE_PROJECT_NAME}-mailpit
+        restart: unless-stopped
+        environment:
+            MP_MAX_MESSAGES: 5000
+            MP_DATABASE: /data/mailpit.db
+            MP_SMTP_AUTH_ACCEPT_ANY: 1
+            MP_SMTP_AUTH_ALLOW_INSECURE: 1
+        healthcheck:
+            test: wget --spider -q http://localhost:8025/api/v1/messages?limit=50
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        volumes:
+            - mailpit-data:/data
+        networks:
+            - proxy
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-mailpit.rule=Host(`mail.localhost`)
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-mailpit.entryPoints=websecure
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-mailpit.service=${COMPOSE_PROJECT_NAME}-mailpit
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-mailpit.tls=true
+            - traefik.http.services.${COMPOSE_PROJECT_NAME}-mailpit.loadbalancer.server.port=8025

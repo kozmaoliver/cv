@@ -7,16 +7,21 @@ use App\Entity\Shared\Identifiable;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements
+    UserInterface,
     IdentifiableInterface,
     PasswordAuthenticatedUserInterface
 {
     use Identifiable;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -53,8 +58,18 @@ class User implements
         return array_unique($roles);
     }
 
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Later will be removed form Symfony
     }
 }

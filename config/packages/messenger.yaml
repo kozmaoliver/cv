@@ -1,0 +1,22 @@
+framework:
+    messenger:
+        failure_transport: default_failed
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            async:
+                dsn: '%env(APP_ASYNC_MESSENGER_TRANSPORT_DSN)%'
+                failure_transport: async_failed
+            async_failed:
+                dsn: '%env(APP_ASYNC_FAILED_MESSENGER_TRANSPORT_DSN)%'
+            default_failed:
+                dsn: '%env(APP_DEFAULT_FAILED_MESSENGER_TRANSPORT_DSN)%'
+            sync: 'sync://'
+
+        default_bus: messenger.bus.default
+
+        buses:
+            messenger.bus.default: []
+
+        routing:
+#            Symfony\Component\Mailer\Messenger\SendEmailMessage: async

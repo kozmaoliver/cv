@@ -12,3 +12,11 @@ api:
     type: attribute
     prefix: /api
     name_prefix: api_
+
+cms:
+    resource:
+        path: ../src/Controller/Cms/
+        namespace: App\Controller\Cms
+    type: attribute
+    prefix: /cms
+    name_prefix: cms_

@@ -1,0 +1,5 @@
+services:
+    app.factory.user:
+        class: App\Factory\UserFactory
+        arguments:
+            $userPasswordHasher: '@security.password_hasher'

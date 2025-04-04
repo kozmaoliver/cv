@@ -1,0 +1,48 @@
+parameters:
+    app.security.login_rate_limiter.ip_login_limiter.limit: '%env(int:resolve:APP_IP_LOGIN_RATE_LIMITER_LIMIT)%'
+    app.security.login_rate_limiter.ip_login_limiter.interval: '%env(string:resolve:APP_IP_LOGIN_RATE_LIMITER_INTERVAL)%'
+    app.security.login_rate_limiter.username_ip_login_limiter.limit: '%env(int:resolve:APP_USERNAME_IP_LOGIN_RATE_LIMITER_LIMIT)%'
+    app.security.login_rate_limiter.username_ip_login_limiter.rate: '%env(json:APP_USERNAME_IP_LOGIN_RATE_LIMITER_RATE)%'
+    app.security.public_cms_actions_rate_limiter.ip_login_limiter.limit: '%env(int:resolve:APP_IP_PUBLIC_CMS_ACTIONS_RATE_LIMITER_LIMIT)%'
+    app.security.public_cms_actions_rate_limiter.ip_login_limiter.interval: '%env(string:resolve:APP_IP_PUBLIC_CMS_ACTIONS_RATE_LIMITER_INTERVAL)%'
+
+services:
+    cache.security.login_rate_limiter_pool:
+        alias: cache.security.login_rate_limiter_pool.default
+
+    app.security.login_rate_limiter.cache:
+        class: Symfony\Component\RateLimiter\Storage\CacheStorage
+        arguments:
+            - '@cache.security.login_rate_limiter_pool'
+
+    app.security.public_cms_actions_rate_limiter.cache:
+        class: Symfony\Component\RateLimiter\Storage\CacheStorage
+        arguments:
+            - '@cache.security.public_cms_actions_rate_limiter_pool'
+
+    app.security.login_rate_limiter.ip_login_limiter:
+        class: Symfony\Component\RateLimiter\RateLimiterFactory
+        arguments:
+            -   id: 'ip_login'
+                policy: 'sliding_window'
+                limit: '%app.security.login_rate_limiter.ip_login_limiter.limit%'
+                interval: '%app.security.login_rate_limiter.ip_login_limiter.interval%'
+            - '@app.security.login_rate_limiter.cache'
+
+    app.security.login_rate_limiter.username_ip_login_limiter:
+        class: Symfony\Component\RateLimiter\RateLimiterFactory
+        arguments:
+            -   id: 'username_ip_login'
+                policy: 'token_bucket'
+                limit: '%app.security.login_rate_limiter.username_ip_login_limiter.limit%'
+                rate: '%app.security.login_rate_limiter.username_ip_login_limiter.rate%'
+            - '@app.security.login_rate_limiter.cache'
+
+    app.security.default_login_rate_limiter:
+        class: Symfony\Component\Security\Http\RateLimiter\DefaultLoginRateLimiter
+        arguments:
+            # limiter for IP
+            - '@app.security.login_rate_limiter.ip_login_limiter'
+            # limiter for username+IP
+            - '@app.security.login_rate_limiter.username_ip_login_limiter'
+            - '%kernel.secret%'
