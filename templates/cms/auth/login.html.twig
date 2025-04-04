@@ -1,0 +1,17 @@
+{% extends 'cms/base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <form class="form w-100" action="{{ path('cms_auth_login') }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="text-center mb-11">
+            <h1 class="text-gray-900 fw-bolder mb-3">Login</h1>
+            <div class="text-gray-500 fw-semibold fs-6">Hello</div>
+        </div>
+
+        {{ form(form) }}
+    </form>
+{% endblock %}
+

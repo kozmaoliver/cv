@@ -1,0 +1,13 @@
+forms:
+    login:
+        fields:
+            username:
+                label: 'Username'
+                placeholder: 'Admin'
+
+            password:
+                label: 'Password'
+                placeholder: 'Password'
+
+            submit:
+                label: 'Login'

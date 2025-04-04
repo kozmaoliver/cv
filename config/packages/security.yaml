@@ -18,19 +18,18 @@ security:
             lazy: true
             provider: users
             form_login:
-                post_only: true
                 form_only: true
-                login_path: app_cms_auth_login
-                check_path: app_cms_auth_login
-                default_target_path: app_cms_show_two_factor_form
+                login_path: cms_auth_login
+                check_path: cms_auth_login
+                default_target_path: cms_show_two_factor_form
                 enable_csrf: true
                 csrf_parameter: _csrf_token
                 csrf_token_id: authenticate
             login_throttling:
                 limiter: app.security.default_login_rate_limiter
             logout:
-                path: app_cms_auth_logout
-                target: app_cms_auth_show_login_form
+                path: cms_auth_logout
+                target: cms_auth_show_login_form
                 enable_csrf: true
                 csrf_parameter: token
                 csrf_token_manager: security.csrf.token_manager
@@ -52,9 +51,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { attributes: { _route: app_cms_auth_logout }, roles: PUBLIC_ACCESS }
-        - { attributes: { _route: app_cms_auth_show_login_form }, roles: PUBLIC_ACCESS }
-        - { attributes: { _route: app_cms_show_two_factor_form }, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        - { attributes: { _route: cms_auth_login }, roles: PUBLIC_ACCESS }
+        - { attributes: { _route: cms_auth_logout }, roles: PUBLIC_ACCESS }
+        - { attributes: { _route: cms_auth_show_login_form }, roles: PUBLIC_ACCESS }
+        - { attributes: { _route: cms_show_two_factor_form }, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         - { path: ^/cms/, roles: ROLE_ADMIN }
 
 when@test:
