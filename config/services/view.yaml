@@ -1,0 +1,9 @@
+services:
+    app.view_handler:
+        class: App\Service\View\ViewHandler
+        arguments:
+            - '@event_dispatcher'
+            - '@serializer'
+
+    App\Service\View\ViewHandlerInterface:
+        alias: app.view_handler

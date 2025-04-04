@@ -21,18 +21,18 @@ security:
                 form_only: true
                 login_path: cms_auth_login
                 check_path: cms_auth_login
-                default_target_path: cms_show_two_factor_form
-                enable_csrf: true
-                csrf_parameter: _csrf_token
-                csrf_token_id: authenticate
+                default_target_path: cms_index
+#                enable_csrf: true
+#                csrf_parameter: _csrf_token
+#                csrf_token_id: authenticate
             login_throttling:
                 limiter: app.security.default_login_rate_limiter
             logout:
                 path: cms_auth_logout
-                target: cms_auth_show_login_form
-                enable_csrf: true
-                csrf_parameter: token
-                csrf_token_manager: security.csrf.token_manager
+                target: cms_auth_login
+#                enable_csrf: true
+#                csrf_parameter: token
+#                csrf_token_manager: security.csrf.token_manager
                 delete_cookies: true
                 invalidate_session: true
                 clear_site_data: "*"

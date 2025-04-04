@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61f3ade15e8b0c75cf8b26f1524e7cba",
+    "content-hash": "e9d27d6116be5f64236787b0410451f7",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1532,74 +1532,6 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
-        },
-        {
-            "name": "scheb/2fa-bundle",
-            "version": "v7.7.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/scheb/2fa-bundle.git",
-                "reference": "9b241074d140c54e0f81742bc089edd8a0efd62b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/9b241074d140c54e0f81742bc089edd8a0efd62b",
-                "reference": "9b241074d140c54e0f81742bc089edd8a0efd62b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-                "symfony/config": "^6.4 || ^7.0",
-                "symfony/dependency-injection": "^6.4 || ^7.0",
-                "symfony/event-dispatcher": "^6.4 || ^7.0",
-                "symfony/framework-bundle": "^6.4 || ^7.0",
-                "symfony/http-foundation": "^6.4 || ^7.0",
-                "symfony/http-kernel": "^6.4 || ^7.0",
-                "symfony/property-access": "^6.4 || ^7.0",
-                "symfony/security-bundle": "^6.4 || ^7.0",
-                "symfony/service-contracts": "^2.5|^3",
-                "symfony/twig-bundle": "^6.4 || ^7.0"
-            },
-            "conflict": {
-                "scheb/two-factor-bundle": "*"
-            },
-            "suggest": {
-                "scheb/2fa-backup-code": "Emergency codes when you have no access to other methods",
-                "scheb/2fa-email": "Send codes by email",
-                "scheb/2fa-google-authenticator": "Google Authenticator support",
-                "scheb/2fa-totp": "Temporary one-time password (TOTP) support (Google Authenticator compatible)",
-                "scheb/2fa-trusted-device": "Trusted devices support"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "Scheb\\TwoFactorBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christian Scheb",
-                    "email": "me@christianscheb.de"
-                }
-            ],
-            "description": "A generic interface to implement two-factor authentication in Symfony applications",
-            "homepage": "https://github.com/scheb/2fa",
-            "keywords": [
-                "2fa",
-                "Authentication",
-                "symfony",
-                "two-factor",
-                "two-step"
-            ],
-            "support": {
-                "source": "https://github.com/scheb/2fa-bundle/tree/v7.7.1"
-            },
-            "time": "2025-03-24T10:50:27+00:00"
         },
         {
             "name": "symfony/asset",
@@ -3283,6 +3215,93 @@
                 }
             ],
             "time": "2025-03-28T13:32:50+00:00"
+        },
+        {
+            "name": "symfony/messenger",
+            "version": "v7.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/messenger.git",
+                "reference": "3ea7cdba88df1f36dad96289291a32cd9ab1862f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/messenger/zipball/3ea7cdba88df1f36dad96289291a32cd9ab1862f",
+                "reference": "3ea7cdba88df1f36dad96289291a32cd9ab1862f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "psr/log": "^1|^2|^3",
+                "symfony/clock": "^6.4|^7.0",
+                "symfony/deprecation-contracts": "^2.5|^3"
+            },
+            "conflict": {
+                "symfony/console": "<7.2",
+                "symfony/event-dispatcher": "<6.4",
+                "symfony/event-dispatcher-contracts": "<2.5",
+                "symfony/framework-bundle": "<6.4",
+                "symfony/http-kernel": "<6.4",
+                "symfony/serializer": "<6.4"
+            },
+            "require-dev": {
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "symfony/console": "^7.2",
+                "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/event-dispatcher": "^6.4|^7.0",
+                "symfony/http-kernel": "^6.4|^7.0",
+                "symfony/process": "^6.4|^7.0",
+                "symfony/property-access": "^6.4|^7.0",
+                "symfony/rate-limiter": "^6.4|^7.0",
+                "symfony/routing": "^6.4|^7.0",
+                "symfony/serializer": "^6.4|^7.0",
+                "symfony/service-contracts": "^2.5|^3",
+                "symfony/stopwatch": "^6.4|^7.0",
+                "symfony/validator": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Messenger\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel Roze",
+                    "email": "samuel.roze@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Helps applications send and receive messages to/from other applications or via message queues",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/messenger/tree/v7.2.5"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-03-04T12:34:02+00:00"
         },
         {
             "name": "symfony/options-resolver",
