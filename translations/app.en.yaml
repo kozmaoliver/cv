@@ -1,6 +1,6 @@
 home:
     hello: "Hi, I'm"
-    lead: "a PHP/Symfony backend developer with a passion for building scalable and efficient web applications. I love working with APIs, databases, and server-side architectures, always striving to write clean and maintainable code."
+    lead: "a PHP/Symfony backend developer with a passion for building scalable and efficient web applications. I love working with APIs, databases, and server-side architectures. I build web apps that scale, don’t fall apart on Mondays, and occasionally even pass QA on the first try. I’m passionate about clean code, smart architecture, and avoiding frontend work whenever humanly possible."
 
 documentation:
     lead: "As you can see, I'm not a huge fontend guy, so feel free to use the API endpoints to request some info about me, instead of searching through some fancy site."
