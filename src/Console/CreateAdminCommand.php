@@ -18,11 +18,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 #[AsCommand(name: self::NAME, description: 'Create a new admin.')]
 class CreateAdminCommand extends Command
 {
-    private const string NAME = 'app:create-admin';
+    private const string NAME = 'app:admin:create';
 
     public function __construct(
-        private readonly MessageBusInterface $messageBus
-    ) {
+        private readonly MessageBusInterface $messageBus,
+    )
+    {
         parent::__construct(self::NAME);
     }
 

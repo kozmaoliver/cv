@@ -6,6 +6,7 @@ use App\Entity\Shared\Contracts\IdentifiableInterface;
 use App\Entity\Shared\Identifiable;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements
     UserInterface,
     IdentifiableInterface,
-    PasswordAuthenticatedUserInterface
+    PasswordAuthenticatedUserInterface,
+    TwoFactorInterface
 {
     use Identifiable;
 
@@ -29,6 +31,9 @@ class User implements
 
     #[ORM\Column(type: 'json')]
     private array $roles = ['ROLE_USER'];
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $googleAuthenticatorSecret;
 
     public function getEmail(): ?string
     {
@@ -72,4 +77,25 @@ class User implements
     {
         // Later will be removed form Symfony
     }
+
+    public function isGoogleAuthenticatorEnabled(): bool
+    {
+        return null !== $this->googleAuthenticatorSecret;
+    }
+
+    public function getGoogleAuthenticatorUsername(): string
+    {
+        return $this->getEmail();
+    }
+
+    public function getGoogleAuthenticatorSecret(): ?string
+    {
+        return $this->googleAuthenticatorSecret;
+    }
+
+    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
+    {
+        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+    }
+
 }

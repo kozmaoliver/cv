@@ -1,0 +1,10 @@
+scheb_two_factor:
+    google:
+        enabled: true
+        server_name: "%env(APP_HOST)%"
+        issuer: "%env(APP_HOST)%"
+        digits: 6
+        leeway: 0
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
