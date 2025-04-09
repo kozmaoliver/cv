@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command\User;
 
-use App\Entity\User\User;
 use App\Exception\User\UserExistsException;
 use App\Factory\UserFactory;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
@@ -22,6 +22,7 @@ readonly class CreateUserHandler
         #[Autowire('@app.factory.user')]
         private UserFactory            $userFactory,
         private UserRepository         $userRepository,
+        private GoogleAuthenticator    $googleAuthenticator,
         private ValidatorInterface     $validator,
     )
     {
@@ -37,10 +38,10 @@ readonly class CreateUserHandler
             throw new UserExistsException($username);
         }
 
-        /** @var User $user */
         $user = $this->userFactory->create($username, $createUser->password);
         $user->setEmail($createUser->email);
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setGoogleAuthenticatorSecret($this->googleAuthenticator->generateSecret());
 
         $violations = $this->validator->validate($user);
 

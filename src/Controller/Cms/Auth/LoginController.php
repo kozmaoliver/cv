@@ -31,7 +31,7 @@ class LoginController extends AbstractController
         $token = $this->tokenStorage->getToken();
 
         if ($token instanceof TwoFactorTokenInterface) {
-            return $this->redirectToRoute('cms_show_two_factor_form');
+            return $this->redirectToRoute('2fa_login');
         }
 
         if ($token !== null) {
