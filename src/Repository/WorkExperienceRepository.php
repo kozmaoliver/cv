@@ -14,4 +14,13 @@ class WorkExperienceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, WorkExperience::class);
     }
+
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('w')
+            ->orderBy('w.startDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
