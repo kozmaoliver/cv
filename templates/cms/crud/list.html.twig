@@ -1,0 +1,8 @@
+{% extends "cms/base.html.twig" %}
+
+{% block body %}
+    <a href="{{ path(routePrefix ~ 'new') }}">create</a> <br>
+    {% for item in items %}
+        <a href="{{ path(routePrefix ~ 'edit', {id: item.id}) }}">{{ item.title }}</a> <br>
+    {% endfor %}
+{% endblock %}

@@ -22,6 +22,7 @@ class SkillType extends AbstractType
 
         $builder->add('submit', SubmitType::class);
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
