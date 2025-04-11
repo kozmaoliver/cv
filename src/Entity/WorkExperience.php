@@ -27,6 +27,9 @@ class WorkExperience implements EntityInterface
     #[ORM\Column(type: 'json')]
     private array $technologies = [];
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $comment;
+
     public function getCompany(): string
     {
         return $this->company;
@@ -75,5 +78,15 @@ class WorkExperience implements EntityInterface
     public function setTechnologies(array $technologies): void
     {
         $this->technologies = $technologies;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
     }
 }
