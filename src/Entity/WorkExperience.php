@@ -21,7 +21,7 @@ class WorkExperience implements EntityInterface
     #[ORM\Column(type: 'date')]
     private \DateTimeInterface $startDate;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(type: 'json')]
