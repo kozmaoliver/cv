@@ -1,0 +1,15 @@
+parameters:
+    app.session.dsn: '%env(APP_SESSION_DSN)%'
+    app.session.ttl: '%env(APP_SESSION_TTL)%'
+
+services:
+    app.session.factory:
+        class: App\Service\Session\RedisSessionHandlerFactory
+
+    app.session.redis.handler:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
+        factory: [ '@app.session.factory', 'create' ]
+        arguments:
+            $dsn: '%app.session.dsn%'
+            # $prefix: 'symfony_session'
+            $ttl: '%app.session.ttl%'

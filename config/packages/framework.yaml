@@ -2,11 +2,18 @@
 framework:
     secret: '%env(APP_SECRET)%'
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
-    csrf_protection: true
+    trusted_headers: '%env(TRUSTED_HEADERS)%'
     disallow_search_engine_index: true
+    csrf_protection:
+        enabled: true
+        check_header: true
 
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    session:
+        handler_id: app.session.redis.handler
+        cookie_secure: true
+        gc_probability: 1 # https://symfony.com/doc/current/session.html#configuring-garbage-collection
+        gc_maxlifetime: '%app.session.ttl%'
+        gc_divisor: 1
 
     #esi: true
     #fragments: true
