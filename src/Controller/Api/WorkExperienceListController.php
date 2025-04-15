@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Entity\WorkExperience;
 use App\Repository\WorkExperienceRepository;
 use App\Service\View\ViewHandlerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,13 +25,14 @@ class WorkExperienceListController extends AbstractController
     {
         $workExperiences = $this->workExperienceRepository->findAll();
 
-        $workExperiences = array_map(function ($workExperience) {
+        $workExperiences = array_map(function (WorkExperience $workExperience) {
             return [
                 'company' => $workExperience->getCompany(),
                 'jobTitle' => $workExperience->getJobTitle(),
                 'startDate' => $workExperience->getStartDate(),
                 'endDate' => $workExperience->getEndDate(),
                 'technologies' => $workExperience->getTechnologies(),
+                'comment' => $workExperience->getComment(),
             ];
         }, $workExperiences);
 

@@ -28,7 +28,7 @@ class WorkExperience implements EntityInterface
     private array $technologies = [];
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $comment;
+    private ?string $comment = null;
 
     public function getCompany(): string
     {

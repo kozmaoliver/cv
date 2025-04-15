@@ -35,7 +35,9 @@ class WorkExperienceType extends AbstractType
             'min' => 1,
         ]);
 
-        $builder->add('comment', TextareaType::class);
+        $builder->add('comment', TextareaType::class, [
+            'required' => false,
+        ]);
 
         $builder->add('submit', SubmitType::class);
     }
