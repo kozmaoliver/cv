@@ -12,10 +12,6 @@ volumes:
         name: ${COMPOSE_PROJECT_NAME}-redis-data
         driver: local
 
-    mailpit-data:
-        name: ${COMPOSE_PROJECT_NAME}-mailpit-data
-        driver: local
-
 services:
     traefik:
         image: traefik:3.3.4
@@ -97,6 +93,8 @@ services:
             - traefik.http.routers.${COMPOSE_PROJECT_NAME}-nginx.entryPoints=websecure
             - traefik.http.routers.${COMPOSE_PROJECT_NAME}-nginx.tls=true
             - traefik.http.services.${COMPOSE_PROJECT_NAME}-nginx.loadbalancer.server.port=80
+            - traefik.http.middlewares.force-https.headers.customrequestheaders.X-Forwarded-Proto=https
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-nginx.middlewares=force-https
         networks:
             - proxy
         volumes:
